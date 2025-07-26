@@ -9,7 +9,12 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration for Vercel deployment
+const allowedOrigins = [
+  'https://healthcare-frontend-eight.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:3001'
+];
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -22,48 +27,22 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Additional middleware for CORS preflight
+// Custom middleware for additional CORS headers
 app.use((req, res, next) => {
-  // Set CORS headers for both old and new frontend URLs
-  const allowedOrigins = [
-    'https://healthcare-frontend-eight.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:3001'
-  ];
-  
-  const allowedOrigins = [
-    'https://healthcare-frontend-eight.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:3001'
-  ];
-  
-  const corsOptions = {
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  };
-  app.use(cors(corsOptions));
-
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
-  
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
   res.header('Access-Control-Allow-Credentials', 'true');
-  
+
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
-  
+
   next();
 });
 
