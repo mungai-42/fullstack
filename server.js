@@ -69,6 +69,22 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
+// Add PATCH /api/appointments/:id/status route for status updates
+const Appointment = require('./models/Appointment');
+app.patch('/api/appointments/:id/status', async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id);
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+    appointment.status = req.body.status;
+    await appointment.save();
+    res.json(appointment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // Health check route
 app.get('/', (req, res) => {
   res.json({ 
