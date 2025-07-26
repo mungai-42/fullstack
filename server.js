@@ -12,35 +12,14 @@ const PORT = process.env.PORT || 5000;
 // CORS configuration for Vercel deployment
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      'https://healthcare-frontend-eight.vercel.app',
-      'https://healthcare-frontend-84q08x48i-mungai-42s-projects.vercel.app',
-      'http://localhost:3000',
-      'http://localhost:3001'
-    ];
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: [
-    'Origin',
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'Authorization',
-    'Cache-Control'
-  ],
-  exposedHeaders: ['Content-Length', 'X-Requested-With']
 };
-
 app.use(cors(corsOptions));
 
 // Additional middleware for CORS preflight
@@ -48,7 +27,8 @@ app.use((req, res, next) => {
   // Set CORS headers for both old and new frontend URLs
   const allowedOrigins = [
     'https://healthcare-frontend-eight.vercel.app',
-    'https://healthcare-frontend-84q08x48i-mungai-42s-projects.vercel.app'
+    'http://localhost:3000',
+    'http://localhost:3001'
   ];
   
   const origin = req.headers.origin;
