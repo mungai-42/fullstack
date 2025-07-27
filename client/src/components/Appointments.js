@@ -31,7 +31,7 @@ const Appointments = () => {
 
   const handleAddAppointment = async (appointmentData) => {
     try {
-      await axios.post('/api/appointments', appointmentData);
+      await axios.post(`${API_BASE_URL}/api/appointments`, appointmentData);
       fetchAppointments();
       setShowModal(false);
     } catch (err) {
@@ -42,7 +42,7 @@ const Appointments = () => {
 
   const handleEditAppointment = async (appointmentData) => {
     try {
-      await axios.put(`/api/appointments/${editingAppointment._id}`, appointmentData);
+      await axios.put(`${API_BASE_URL}/api/appointments/${editingAppointment._id}`, appointmentData);
       fetchAppointments();
       setShowModal(false);
       setEditingAppointment(null);
@@ -55,7 +55,7 @@ const Appointments = () => {
   const handleDeleteAppointment = async (id) => {
     if (window.confirm('Are you sure you want to delete this appointment?')) {
       try {
-        await axios.delete(`/api/appointments/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/appointments/${id}`);
         fetchAppointments();
       } catch (err) {
         setError('Failed to delete appointment');
@@ -66,7 +66,7 @@ const Appointments = () => {
 
   const handleStatusUpdate = async (id, status) => {
     try {
-      await axios.patch(`/api/appointments/${id}/status`, { status });
+      await axios.patch(`${API_BASE_URL}/api/appointments/${id}`, { status });
       fetchAppointments();
     } catch (err) {
       setError('Failed to update appointment status');

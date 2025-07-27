@@ -5,7 +5,7 @@ const config = {
   },
   // Production - updated with new backend URL
   production: {
-    apiUrl: 'https://healthcare-backend-n3ufav0ww-mungai-42s-projects.vercel.app'
+    apiUrl: 'https://healthcare-backend-27ik.onrender.com'
   }
 };
 

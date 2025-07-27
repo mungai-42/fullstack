@@ -31,7 +31,7 @@ const Doctors = () => {
 
   const handleAddDoctor = async (doctorData) => {
     try {
-      await axios.post('/api/doctors', doctorData);
+      await axios.post(`${API_BASE_URL}/api/doctors`, doctorData);
       fetchDoctors();
       setShowModal(false);
     } catch (err) {
@@ -42,7 +42,7 @@ const Doctors = () => {
 
   const handleEditDoctor = async (doctorData) => {
     try {
-      await axios.put(`/api/doctors/${editingDoctor._id}`, doctorData);
+      await axios.put(`${API_BASE_URL}/api/doctors/${editingDoctor._id}`, doctorData);
       fetchDoctors();
       setShowModal(false);
       setEditingDoctor(null);
@@ -55,7 +55,7 @@ const Doctors = () => {
   const handleDeleteDoctor = async (id) => {
     if (window.confirm('Are you sure you want to deactivate this doctor?')) {
       try {
-        await axios.delete(`/api/doctors/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/doctors/${id}`);
         fetchDoctors();
       } catch (err) {
         setError('Failed to deactivate doctor');
