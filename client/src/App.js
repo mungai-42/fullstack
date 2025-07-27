@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Dashboard from './components/Dashboard';
 import Patients from './components/Patients';
 import Doctors from './components/Doctors';
 import Appointments from './components/Appointments';
