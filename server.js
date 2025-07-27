@@ -63,6 +63,7 @@ const doctorRoutes = require('./routes/doctors');
 const appointmentRoutes = require('./routes/appointments');
 const dashboardRoutes = require('./routes/dashboard');
 const authRoutes = require('./routes/auth');
+const usersRoutes = require('./routes/users');
 
 // Use routes
 app.use('/api/patients', patientRoutes);
@@ -70,6 +71,7 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
 
 // Add PATCH /api/appointments/:id/status route for status updates
 const Appointment = require('./models/Appointment');
