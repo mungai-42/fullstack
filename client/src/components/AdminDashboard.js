@@ -11,13 +11,8 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const usersRes = await axios.get(`${API_BASE_URL}/api/users`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const apptRes = await axios.get(`${API_BASE_URL}/api/appointments`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const usersRes = await axios.get(`${API_BASE_URL}/api/users`);
+        const apptRes = await axios.get(`${API_BASE_URL}/api/appointments`);
         setUsers(usersRes.data);
         setAppointments(apptRes.data);
       } catch (err) {

@@ -12,10 +12,7 @@ export default function UserDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const apptRes = await axios.get(`${API_BASE_URL}/api/appointments`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const apptRes = await axios.get(`${API_BASE_URL}/api/appointments`);
         const docRes = await axios.get(`${API_BASE_URL}/api/doctors`);
         setAppointments(apptRes.data);
         setDoctors(docRes.data);
@@ -33,10 +30,7 @@ export default function UserDashboard() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(`${API_BASE_URL}/api/appointments`, form, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.post(`${API_BASE_URL}/api/appointments`, form);
       window.location.reload();
     } catch (err) {
       setError('Failed to book appointment');

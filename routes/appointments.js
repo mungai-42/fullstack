@@ -3,18 +3,12 @@ const router = express.Router();
 const Appointment = require('../models/Appointment');
 const Patient = require('../models/Patient');
 const Doctor = require('../models/Doctor');
-const { auth, admin } = require('../middleware/auth');
 
 // Get all appointments (admin) or user's appointments (user)
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    if (req.user.role === 'admin') {
-      const appointments = await Appointment.find().populate('user doctor');
-      res.json(appointments);
-    } else {
-      const appointments = await Appointment.find({ user: req.user.userId }).populate('doctor');
-      res.json(appointments);
-    }
+    const appointments = await Appointment.find().populate('user doctor');
+    res.json(appointments);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
