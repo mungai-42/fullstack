@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import Patients from './components/Patients';
@@ -18,7 +18,7 @@ function App() {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/patients" element={<Patients />} />
             <Route path="/doctors" element={<Doctors />} />
             <Route path="/appointments" element={<Appointments />} />
