@@ -7,7 +7,9 @@ const Doctor = require('../models/Doctor');
 // Get all appointments (admin) or user's appointments (user)
 router.get('/', async (req, res) => {
   try {
-    const appointments = await Appointment.find().populate('user doctor');
+    const appointments = await Appointment.find()
+      .populate('patient', 'name email phone age gender')
+      .populate('doctor', 'name specialization qualification');
     res.json(appointments);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -187,4 +189,4 @@ router.get('/patient/:patientId', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;
