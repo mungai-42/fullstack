@@ -5,7 +5,7 @@ const config = {
   },
   // Production - Vercel backend deployment
   production: {
-    apiUrl: 'https://fullstack-mungai-42s-projects.vercel.app'
+    apiUrl: 'https://fullstack-l4y6qkove-mungai-42s-projects.vercel.app'
   }
 };
 

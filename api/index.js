@@ -11,6 +11,9 @@ const app = express();
 // CORS configuration for Vercel
 app.use(cors({
   origin: [
+    'https://client-nwj1h1tj6-mungai-42s-projects.vercel.app',
+    'https://client-p6huaag7d-mungai-42s-projects.vercel.app',
+    'https://fullstack-seven-navy.vercel.app',
     'https://fullstack-frontend-mungai-42s-projects.vercel.app',
     'https://healthcare-frontend-eight.vercel.app',
     'https://healthcare-frontend-84q08x48i-mungai-42s-projects.vercel.app',
@@ -33,6 +36,9 @@ app.use(cors({
 app.use((req, res, next) => {
   // Allow both old and new frontend URLs
   const allowedOrigins = [
+    'https://client-nwj1h1tj6-mungai-42s-projects.vercel.app',
+    'https://client-p6huaag7d-mungai-42s-projects.vercel.app',
+    'https://fullstack-seven-navy.vercel.app',
     'https://fullstack-frontend-mungai-42s-projects.vercel.app',
     'https://healthcare-frontend-eight.vercel.app',
     'https://healthcare-frontend-84q08x48i-mungai-42s-projects.vercel.app'
