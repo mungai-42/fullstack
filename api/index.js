@@ -14,6 +14,7 @@ app.use(cors({
     'https://fullstack-frontend-mungai-42s-projects.vercel.app',
     'https://healthcare-frontend-eight.vercel.app',
     'https://healthcare-frontend-84q08x48i-mungai-42s-projects.vercel.app',
+    'https://fullstack-seven-navy.vercel.app',
     'http://localhost:3000',
     'http://localhost:3001'
   ],
@@ -35,7 +36,8 @@ app.use((req, res, next) => {
   const allowedOrigins = [
     'https://fullstack-frontend-mungai-42s-projects.vercel.app',
     'https://healthcare-frontend-eight.vercel.app',
-    'https://healthcare-frontend-84q08x48i-mungai-42s-projects.vercel.app'
+    'https://fullstack-frontend-84q08x48i-mungai-42s-projects.vercel.app',
+    'https://fullstack-seven-navy.vercel.app'
   ];
   
   const origin = req.headers.origin;
