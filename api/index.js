@@ -10,14 +10,26 @@ const app = express();
 
 // CORS configuration for Vercel
 app.use(cors({
-  origin: [
-    'https://fullstack-frontend-mungai-42s-projects.vercel.app',
-    'https://healthcare-frontend-eight.vercel.app',
-    'https://healthcare-frontend-84q08x48i-mungai-42s-projects.vercel.app',
-    'https://fullstack-seven-navy.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:3001'
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'https://fullstack-frontend-mungai-42s-projects.vercel.app',
+      'https://healthcare-frontend-eight.vercel.app',
+      'https://fullstack-frontend-84q08x48i-mungai-42s-projects.vercel.app',
+      'https://fullstack-seven-navy.vercel.app',
+      'http://localhost:3000',
+      'http://localhost:3001'
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: [
@@ -27,11 +39,16 @@ app.use(cors({
     'Accept',
     'Authorization',
     'Cache-Control'
-  ]
+  ],
+  optionsSuccessStatus: 200
 }));
 
-// Additional CORS middleware
+// Additional CORS middleware with debugging
 app.use((req, res, next) => {
+  console.log('Request origin:', req.headers.origin);
+  console.log('Request method:', req.method);
+  console.log('Request path:', req.path);
+  
   // Allow both old and new frontend URLs
   const allowedOrigins = [
     'https://fullstack-frontend-mungai-42s-projects.vercel.app',
@@ -43,6 +60,9 @@ app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
+    console.log('CORS origin allowed:', origin);
+  } else {
+    console.log('CORS origin not in allowed list:', origin);
   }
   
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
@@ -50,6 +70,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', 'true');
   
   if (req.method === 'OPTIONS') {
+    console.log('Handling OPTIONS preflight request');
     res.status(200).end();
     return;
   }
@@ -76,6 +97,37 @@ const dashboardRoutes = require('../routes/dashboard');
 // Use routes
 app.use('/api/patients', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
+
+// Special CORS handling for appointments endpoint
+app.use('/api/appointments', (req, res, next) => {
+  const origin = req.headers.origin;
+  console.log('Appointments endpoint - Origin:', origin);
+  
+  const allowedOrigins = [
+    'https://fullstack-frontend-mungai-42s-projects.vercel.app',
+    'https://healthcare-frontend-eight.vercel.app',
+    'https://fullstack-frontend-84q08x48i-mungai-42s-projects.vercel.app',
+    'https://fullstack-seven-navy.vercel.app'
+  ];
+  
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    console.log('Appointments CORS origin allowed:', origin);
+  }
+  
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    console.log('Appointments OPTIONS preflight handled');
+    res.status(200).end();
+    return;
+  }
+  
+  next();
+});
+
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
