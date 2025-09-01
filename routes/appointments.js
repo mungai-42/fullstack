@@ -4,6 +4,55 @@ const Appointment = require('../models/Appointment');
 const Patient = require('../models/Patient');
 const Doctor = require('../models/Doctor');
 
+// CORS middleware for appointments routes
+router.use((req, res, next) => {
+  const allowedOrigins = [
+    'https://fullstack-frontend-mungai-42s-projects.vercel.app',
+    'https://healthcare-frontend-eight.vercel.app',
+    'https://fullstack-frontend-84q08x48i-mungai-42s-projects.vercel.app',
+    'https://fullstack-seven-navy.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ];
+  
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+  next();
+});
+
+// Handle OPTIONS preflight requests for appointments
+router.options('*', (req, res) => {
+  const allowedOrigins = [
+    'https://fullstack-frontend-mungai-42s-projects.vercel.app',
+    'https://healthcare-frontend-eight.vercel.app',
+    'https://fullstack-frontend-84q08x48i-mungai-42s-projects.vercel.app',
+    'https://fullstack-seven-navy.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ];
+  
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.status(200).end();
+});
+
 // Get all appointments (admin) or user's appointments (user)
 router.get('/', async (req, res) => {
   try {
