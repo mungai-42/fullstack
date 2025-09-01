@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHospital, FaUsers, FaUserMd, FaCalendarAlt } from 'react-icons/fa';
+import { FaHospital, FaUsers, FaUserMd, FaCalendarAlt, FaChartLine } from 'react-icons/fa';
 
 const Navbar = () => {
   const location = useLocation();
@@ -20,6 +20,7 @@ const Navbar = () => {
           <ul className="navbar-nav">
             <li>
               <Link to="/" className={`nav-link ${isActive('/')}`}>
+                <FaChartLine style={{ marginRight: '5px' }} />
                 Dashboard
               </Link>
             </li>
