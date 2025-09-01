@@ -8,61 +8,31 @@ dotenv.config();
 
 const app = express();
 
-// CORS configuration for Vercel
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      'https://fullstack-frontend-mungai-42s-projects.vercel.app',
-      'https://healthcare-frontend-eight.vercel.app',
-      'https://fullstack-frontend-84q08x48i-mungai-42s-projects.vercel.app',
-      'https://fullstack-seven-navy.vercel.app',
-      'http://localhost:3000',
-      'http://localhost:3001'
-    ];
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: [
-    'Origin',
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'Authorization',
-    'Cache-Control'
-  ],
-  optionsSuccessStatus: 200
-}));
-
-// Additional CORS middleware with debugging
+// AGGRESSIVE CORS configuration - applied first
 app.use((req, res, next) => {
-  console.log('Request origin:', req.headers.origin);
-  console.log('Request method:', req.method);
-  console.log('Request path:', req.path);
+  const origin = req.headers.origin;
+  console.log('🔒 CORS Check - Origin:', origin);
+  console.log('🔒 CORS Check - Method:', req.method);
+  console.log('🔒 CORS Check - Path:', req.path);
   
-  // Allow both old and new frontend URLs
+  // Always allow these origins
   const allowedOrigins = [
     'https://fullstack-frontend-mungai-42s-projects.vercel.app',
     'https://healthcare-frontend-eight.vercel.app',
     'https://fullstack-frontend-84q08x48i-mungai-42s-projects.vercel.app',
-    'https://fullstack-seven-navy.vercel.app'
+    'https://fullstack-seven-navy.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:3001'
   ];
   
-  const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
-    console.log('CORS origin allowed:', origin);
+    console.log('✅ CORS Origin ALLOWED:', origin);
   } else {
-    console.log('CORS origin not in allowed list:', origin);
+    console.log('❌ CORS Origin BLOCKED:', origin);
+    // For debugging, temporarily allow all origins
+    res.header('Access-Control-Allow-Origin', '*');
+    console.log('⚠️  Temporarily allowing all origins for debugging');
   }
   
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
@@ -70,10 +40,11 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', 'true');
   
   if (req.method === 'OPTIONS') {
-    console.log('Handling OPTIONS preflight request');
+    console.log('🔄 Handling OPTIONS preflight request');
     res.status(200).end();
     return;
   }
+  
   next();
 });
 
