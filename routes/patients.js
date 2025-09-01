@@ -73,7 +73,7 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Patient not found' });
     }
 
-    await patient.remove();
+    await Patient.findByIdAndDelete(req.params.id);
     res.json({ message: 'Patient deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
