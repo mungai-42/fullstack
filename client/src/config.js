@@ -3,9 +3,9 @@ const config = {
   development: {
     apiUrl: 'http://localhost:5000'
   },
-  // Production - updated with new backend URL
+  // Production - Vercel backend deployment
   production: {
-    apiUrl: 'https://healthcare-backend-27ik.onrender.com'
+    apiUrl: 'https://fullstack-mungai-42s-projects.vercel.app'
   }
 };
 
